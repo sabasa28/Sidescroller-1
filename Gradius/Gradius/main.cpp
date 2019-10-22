@@ -74,14 +74,16 @@ void init_player()
 	posY_player = 200.0f;
 	//Players Creation
 
-	player.rec.x = posX_player;
-	player.rec.y = posY_player;
-
 	player.speed = 385.0f;
-
 	player.rec.width = 30.0f;
 	player.rec.height = 30.0f;
+
 	player.color = BLUE;
+
+	player.rec.x = posX_player + player.rec.width;
+	player.rec.y = posY_player;
+
+
 	//Player Texture
 }
 
