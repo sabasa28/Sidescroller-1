@@ -18,6 +18,7 @@ float aux;
 struct Player {
 	Rectangle rec;
 	int score;
+	int life;
 	float speed;
 	Color color;
 	Texture2D texture;
@@ -57,7 +58,7 @@ void play()
 
 	InitWindow(screen_width, screen_height, "This ain't a Gradius clone, it's a ripoff");
 
-	while (!WindowShouldClose() && !game_over)
+	while (!WindowShouldClose())
 	{
 		input();
 		update();
@@ -83,7 +84,7 @@ void init_player()
 	player.rec.x = posX_player + player.rec.width;
 	player.rec.y = posY_player;
 
-
+	player.life = 3;
 	//Player Texture
 }
 
@@ -126,7 +127,14 @@ void update()
 			meteor[i].rec.y = GetRandomValue(0, aux);
 		}
 
+		if (CheckCollisionRecs(player.rec, meteor[i].rec))
+		{
+			player.life--;
+			if (player.life == 0)
+				game_over = true;
+		}
 	}
+
 }
 
 void init_meteor()
