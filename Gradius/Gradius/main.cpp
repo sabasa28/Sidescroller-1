@@ -10,34 +10,31 @@
 
 const int screen_width = 1000;
 const int screen_height = 400;
+const int cant_meteor = 5;
+float aux;
 
+//Structs/Classes i prefer to do this way with {} simply because that's the easiest
+//way for me to identify them on a quick read
 struct Player {
 	Rectangle rec;
-	Vector2 size;
 	int score;
+	float speed;
 	Color color;
 	Texture2D texture;
 	Image img;
 };
-
 Player player;
 
-struct Triangle{
-	Vector2 punta_x;
-	Vector2 punta_y;
-	Vector2 punta_z;
-};
-
 struct Meteor {
-	Triangle triangle;
-	Vector2 size;
+	Rectangle rec;
 	Color color;
 	Texture2D texture;
 	Image img;
+	float speed;
 	bool active; //This is when the player shoots it, it desapears for a moment
 };
 
-Meteor meteor;
+Meteor meteor[cant_meteor];
 bool game_over;
 
 
@@ -60,7 +57,7 @@ void play()
 
 	InitWindow(screen_width, screen_height, "This ain't a Gradius clone, it's a ripoff");
 
-	while (!game_over)
+	while (!WindowShouldClose() && !game_over)
 	{
 		input();
 		update();
@@ -70,21 +67,20 @@ void play()
 
 float posX_player;
 float posY_player;
-float vel_player = 385.0f;
 
 void init_player()
 {
 	posX_player = 0.0f;
 	posY_player = 200.0f;
 	//Players Creation
-	player.size.x = 30.0f;
-	player.size.y = 30.0f;
 
 	player.rec.x = posX_player;
 	player.rec.y = posY_player;
 
-	player.rec.width = player.size.x;
-	player.rec.height = player.size.y;
+	player.speed = 385.0f;
+
+	player.rec.width = 30.0f;
+	player.rec.height = 30.0f;
 	player.color = BLUE;
 	//Player Texture
 }
@@ -93,8 +89,12 @@ void draw()
 {
 	BeginDrawing();
 	ClearBackground(BLACK);
-	DrawRectangle(player.rec.x, player.rec.y, player.rec.height, player.rec.width, player.color);
-	//DrawTriangle({punta 1 x y},{punta 2 x y},{punta 3 x y},color);
+	DrawRectangleRec(player.rec, player.color);
+	for (int i = 0; i < cant_meteor; i++)
+	{
+		if (meteor[i].active)
+			DrawRectangleRec(meteor[i].rec, meteor[i].color);
+	}
 	EndDrawing();
 }
 
@@ -102,27 +102,48 @@ void input()
 {
 	if (IsKeyDown(KEY_DOWN))
 	{
-		player.rec.y += vel_player * GetFrameTime();
+		player.rec.y += player.speed * GetFrameTime();
 	}
 	if (IsKeyDown(KEY_UP))
 	{
-		player.rec.y -= vel_player * GetFrameTime();
+		player.rec.y -= player.speed * GetFrameTime();
 	}
+	if (IsKeyPressed(KEY_ESCAPE)) game_over = true;
+
 }
 void update()
 {
-	if (CheckCollisionRecs(player.rec, meteor.rec))
+	for (int i = 0; i < cant_meteor; i++)
 	{
-		game_over = true;
+		if (meteor[i].active)
+			meteor[i].rec.x -= meteor[i].speed * GetFrameTime();
+		if (meteor[i].rec.x <= 0)
+		{
+			aux = screen_height - meteor[i].rec.width;
+			meteor[i].rec.x = screen_width - meteor[i].rec.width;
+			meteor[i].rec.y = GetRandomValue(0, aux);
+		}
+
 	}
 }
 
 void init_meteor()
 {
-	meteor.size.x = 10.0f;
-	meteor.size.y = 10.0f;
+	for (int i = 0; i < cant_meteor; i++)
+	{
+		meteor[i].rec.height = 10.0f;
+		meteor[i].rec.width = 20.0f;
 
-	meteor.color = RED;
+		meteor[i].speed = 450.0f;
+
+		aux = screen_width - meteor[i].rec.height;
+		meteor[i].rec.x = aux;
+		aux = GetRandomValue(0,screen_height);
+		meteor[i].rec.y = aux;
+
+		meteor[i].color = RED;
+		meteor[i].active = true;
+	}
 }
 
 void init()
