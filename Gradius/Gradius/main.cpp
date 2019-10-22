@@ -8,6 +8,9 @@
 #include "raylib.h"
 #include "glfw3.h"
 
+const int screen_width = 1000;
+const int screen_height = 400;
+
 struct Player {
 	Rectangle rec;
 	Vector2 size;
@@ -19,8 +22,14 @@ struct Player {
 
 Player player;
 
+struct Triangle{
+	Vector2 punta_x;
+	Vector2 punta_y;
+	Vector2 punta_z;
+};
+
 struct Meteor {
-	Rectangle rec;
+	Triangle triangle;
 	Vector2 size;
 	Color color;
 	Texture2D texture;
@@ -49,7 +58,7 @@ void play()
 {
 	init();
 
-	InitWindow(1000, 440, "This ain't a Gradius clone, it's a ripoff");
+	InitWindow(screen_width, screen_height, "This ain't a Gradius clone, it's a ripoff");
 
 	while (!game_over)
 	{
@@ -65,8 +74,8 @@ float vel_player = 385.0f;
 
 void init_player()
 {
-	posX_player =(GetScreenWidth() / 14);
-	posY_player =(GetScreenHeight() / 2);
+	posX_player = 0.0f;
+	posY_player = 200.0f;
 	//Players Creation
 	player.size.x = 30.0f;
 	player.size.y = 30.0f;
@@ -113,11 +122,6 @@ void init_meteor()
 	meteor.size.x = 10.0f;
 	meteor.size.y = 10.0f;
 
-	meteor.rec.x = GetScreenWidth();
-	meteor.rec.y = GetScreenHeight() / 2;
-
-	meteor.rec.width = meteor.size.x;
-	meteor.rec.height = meteor.size.y;
 	meteor.color = RED;
 }
 
