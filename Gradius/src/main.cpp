@@ -5,6 +5,9 @@
 	Free movement
 
 */
+#include <fstream>
+#include <iostream>
+
 #include "raylib.h"
 #include "glfw3.h"
 
@@ -21,8 +24,6 @@ struct Player {
 	int life;
 	float speed;
 	Color color;
-	Texture2D texture;
-	Image img;
 };
 Player player;
 
@@ -55,9 +56,6 @@ void main()
 void play()
 {
 	init();
-
-	InitWindow(screen_width, screen_height, "This ain't a Gradius clone, it's a ripoff");
-
 	while (!WindowShouldClose())
 	{
 		input();
@@ -85,7 +83,7 @@ void init_player()
 	player.rec.y = posY_player;
 
 	player.life = 3;
-	//Player Texture
+
 }
 
 void draw()
@@ -111,13 +109,13 @@ void input()
 	{
 		player.rec.y -= player.speed * GetFrameTime();
 	}
-	if (IsKeyPressed(KEY_ESCAPE)) game_over = true;
-
 }
 void update()
 {
 	for (int i = 0; i < cant_meteor; i++)
 	{
+		if (player.rec.y <= 0) player.rec.y = 0;
+		if (player.rec.y >= screen_height - player.rec.height) player.rec.y = screen_height - player.rec.height;
 		if (meteor[i].active)
 			meteor[i].rec.x -= meteor[i].speed * GetFrameTime();
 		if (meteor[i].rec.x <= 0)
@@ -129,6 +127,8 @@ void update()
 
 		if (CheckCollisionRecs(player.rec, meteor[i].rec))
 		{
+			meteor[i].rec.x = screen_width - meteor[i].rec.height;
+			meteor[i].rec.y = GetRandomValue(0,screen_height);
 			player.life--;
 			if (player.life == 0)
 				game_over = true;
@@ -158,6 +158,7 @@ void init_meteor()
 
 void init()
 {
+	InitWindow(screen_width, screen_height, "This ain't a Gradius clone, it's a ripoff");
 	game_over = false;
 	init_player();
 	init_meteor();
