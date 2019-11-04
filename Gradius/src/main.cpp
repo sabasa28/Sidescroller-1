@@ -15,14 +15,20 @@ const int screen_width = 1000;
 const int screen_height = 400;
 const int cant_meteor = 5;
 const static int max_bullets = 50;
-const static int maxBombs = 50;
+const static int max_bombs = 50;
 static int chosenBullet;
+static int chosenBomb;
 float aux;
 
 void init_meteor();
 void drawBullets();
 void shootBullet();
 void moveBullets();
+
+void initBomb();
+void drawBombs();
+void shootBomb();
+void moveBomb();
 
 //Structs/Classes i prefer to do this way with {} simply because that's the easiest
 //way for me to identify them on a quick read
@@ -45,7 +51,6 @@ struct Bullet {
 	bool active;
 	Color color;
 };
-
 Bullet bullet[max_bullets];
 
 struct Bomb {
@@ -55,7 +60,7 @@ struct Bomb {
 	bool active;
 	Color color;
 };
-Bomb bomb[maxBombs];
+Bomb bomb[max_bombs];
 
 struct Meteor {
 	Rectangle rec;
@@ -63,7 +68,7 @@ struct Meteor {
 	Texture2D texture;
 	Image img;
 	float speed;
-	bool active; //This is when the player shoots it, it desapears for a moment
+	bool active;
 };
 Meteor meteor[cant_meteor];
 
@@ -72,20 +77,18 @@ enum  Game_screens {
 	GAME,
 	END
 };
-
 Game_screens game_screen;
 
 
-
-
-
 void init_player();
+
 void play();
 
 void input();
 void update();
 void draw();
 void init();
+
 void draw_menu();
 void draw_game();
 void draw_end();
@@ -96,7 +99,6 @@ int main()
 	return 0;
 }
 
-//Game manager
 void play()
 {
 	init();
@@ -117,7 +119,6 @@ float posY_player;
 void draw()
 {
 	BeginDrawing();
-	ClearBackground(BLACK);
 	switch (game_screen)
 	{
 	case MENU:
@@ -144,7 +145,7 @@ void draw()
 void draw_menu()
 {
 	int posX = GetScreenWidth() / 4, posY = 10, size = 40;
-
+	ClearBackground(BLACK);
 	DrawText("Gradius", posX, posY, size, RAYWHITE);
 	posY += 50;
 	size = 20;
@@ -163,8 +164,10 @@ void draw_menu()
 
 void draw_game()
 {
+	ClearBackground(BLACK);
 	DrawRectangleRec(player.rec, player.color);
 	drawBullets();
+	drawBombs();
 	for (int i = 0; i < cant_meteor; i++)
 	{
 		if (meteor[i].active)
@@ -174,6 +177,7 @@ void draw_game()
 
 void draw_end()
 {
+	ClearBackground(BLACK);
 	int posX = GetScreenWidth() / 4, posY = 10, size = 40;
 
 	DrawText("You suck", posX, posY, size, RAYWHITE);
@@ -211,8 +215,9 @@ void update()
 		}
 	}
 	moveBullets();
+	moveBomb();
 }
-//Input
+
 void input()
 {
 	if (IsKeyDown(KEY_DOWN))
@@ -233,14 +238,16 @@ void input()
 	{
 		shootBullet();
 	}
+	if (IsKeyPressed('Z'))
+	{
+		shootBomb();
+	}
 }
 
-//Init
 void init_player()
 {
 	posX_player = 0.0f;
 	posY_player = 200.0f;
-	//Players Creation
 
 	player.speed = 385.0f;
 	player.rec.width = 30.0f;
@@ -278,23 +285,51 @@ void init_meteor()
 
 void initBomb()
 {
-	for (int i = 0; i < maxBombs; i++)
+	for (int i = 0; i < max_bombs; i++)
 	{
-		bomb[i].active;
-		bomb[i].color = ORANGE;
+		bomb[i].active = false;
+		bomb[i].color = WHITE;
 		bomb[i].radius = 10.0f;
-		bomb[i].speed.x = 100.0f;
-		bomb[i].speed.y = 100.0f;
+		bomb[i].speed.x = 200.0f;
+		bomb[i].speed.y = 150.0f;
 	}
 }
 
-void drawBombs() //CONTINUO DESDE ACA, IMPLEMENTAR BOMBAS
+void drawBombs()
 {
-	for (int i = 0; i < maxBombs; i++)
+	for (int i = 0; i < max_bombs; i++)
 	{
 		if (bomb[i].active)
 		{
 			DrawCircle(bomb[i].pos.x, bomb[i].pos.y, bomb[i].radius, bomb[i].color);
+		}
+	}
+}
+
+void shootBomb()
+{
+	for (int i = 0; i < max_bombs; i++)
+	{
+		if (!bomb[i].active)
+		{
+			chosenBomb = i;
+			break;
+		}
+	}
+	bomb[chosenBomb].active = true;
+	bomb[chosenBomb].pos.x = player.rec.x ;
+	bomb[chosenBomb].pos.y = player.rec.y ;
+}
+
+void moveBomb()
+{
+	for (int i = 0; i < max_bombs; i++)
+	{
+		bomb[i].pos.x += bomb[i].speed.x*GetFrameTime();
+		bomb[i].pos.y += bomb[i].speed.y*GetFrameTime();
+		if (/*CheckCollisionCircleRec(bomb[i].pos,bomb[i].radius,floor)*/bomb[i].pos.y >= screen_height-bomb[i].radius)
+		{
+			bomb[i].active = false;
 		}
 	}
 }
@@ -355,5 +390,6 @@ void init()
 	InitWindow(screen_width, screen_height, "This ain't a Gradius clone, it's a ripoff");
 	init_player();
 	init_meteor();
+	initBomb();
 	initBullet();
 }
