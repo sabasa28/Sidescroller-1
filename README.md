@@ -2,12 +2,12 @@
 Gradius
 ============================
 
-This ain't some gradius clone, it's a gradius ripoff
+A game inspired by the original Gradius, but better
 
 introduction
 ----------------------------
 
-My name is Felix Godziela.
+Developed by Iñaki Diez Galarza
 
 screenshots
 ----------------------------
@@ -16,10 +16,11 @@ screenshots
 contact
 -------------------------
 
-email: jose.godziela_99@hotmail.com
+email: inakidiezgalarza@gmail.com
 
-Discord: Brisingrwolf#3865
+Discord: sabasa#5329
 
 
 
-Thanks for reading!
+
+Thanks for reading, now go play!
