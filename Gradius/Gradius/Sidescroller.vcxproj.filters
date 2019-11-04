@@ -2,5 +2,66 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\game_states\game.cpp">
+      <Filter>game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game_states\gameOver.cpp">
+      <Filter>game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game_states\gameplay.cpp">
+      <Filter>game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game_states\menu.cpp">
+      <Filter>game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\general\console.cpp">
+      <Filter>general</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game_elements\enemies.cpp">
+      <Filter>game_elements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game_elements\player.cpp">
+      <Filter>game_elements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\game_elements\proyectiles.cpp">
+      <Filter>game_elements</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="game_elements">
+      <UniqueIdentifier>{b3c76c21-5542-4c5f-9e14-3084a844e6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="general">
+      <UniqueIdentifier>{19c64fff-c8f9-4215-93ca-f9b0aae356b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_states">
+      <UniqueIdentifier>{82690a53-381d-4249-8c3e-bb4663c7f524}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\game_states\game.h">
+      <Filter>game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game_states\gameOver.h">
+      <Filter>game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game_states\gameplay.h">
+      <Filter>game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game_states\menu.h">
+      <Filter>game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\general\console.h">
+      <Filter>general</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game_elements\enemies.h">
+      <Filter>game_elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game_elements\player.h">
+      <Filter>game_elements</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\game_elements\proyectiles.h">
+      <Filter>game_elements</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
