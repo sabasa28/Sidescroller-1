@@ -17,7 +17,7 @@ void init_enemies()
 	enemy.cadence = 1;
 }
 
-void move_enemies() 
+void update_enemies() 
 {
 	enemy.rec.x += enemy.speed.x*GetFrameTime();
 	if (enemy.rec.x <= 0)

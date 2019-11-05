@@ -113,7 +113,8 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\lib\Raylib\lib\raylib.dll" "$(OutDir)" /y</Command>
+      <Command>cd $(SolutionDir)
+copy.bat "$(SolutionDir)\lib\Raylib\lib\raylib.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,7 +144,8 @@
       <AdditionalDependencies>raylib.lib;raylib_static.lib;glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\lib\Raylib\lib\raylib.dll" "$(OutDir)" /y</Command>
+      <Command>cd $(SolutionDir)
+copy.bat "$(SolutionDir)\lib\Raylib\lib\raylib.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

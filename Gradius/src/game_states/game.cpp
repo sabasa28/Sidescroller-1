@@ -15,7 +15,7 @@
 Game_states game_state;
 
 static int timer;
-static int enemyShot = 0;
+static int enemy_shot = 0;
 void init();
 void input();
 void update();
@@ -34,8 +34,8 @@ void play()
 
 void init()
 {
-	game_state = MENU;
 	InitWindow(screen_width, screen_height, "This ain't a Gradius clone, it's a ripoff");
+	game_state = MENU;
 	init_gameplay();
 }
 
@@ -85,10 +85,10 @@ void input()
 void update()
 {
 	timer = static_cast<int>(clock() / 1000);
-	if (timer>=enemyShot)
+	if (timer>=enemy_shot)
 	{
 		shoot_enemy_bomb();
-		enemyShot = timer + enemy.cadence;
+		enemy_shot = timer + enemy.cadence;
 	}
 	switch (game_state)
 	{
@@ -135,7 +135,7 @@ void update()
 		}
 		update_bullets();
 		update_player_bomb();
-		move_enemies();
+		update_enemies();
 		update_enemy_bomb();
 		break;
 	case END:
